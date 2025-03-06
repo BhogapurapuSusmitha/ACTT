@@ -1,0 +1,144 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACTT of India</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-image: url('A:/ACTT/Background.jpg');
+            background-size: cover; /* Ensures the image covers the entire screen */
+            background-position: center; /* Centers the image */
+            background-attachment: fixed; /* Keeps the background fixed while scrolling */
+            background-repeat: no-repeat; 
+           
+            
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+        .search-box {
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            padding: 20px;
+        }
+        .state {
+            padding: 15px;
+            border-radius: 5px;
+            color: rgb(6, 6, 6);
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+        .state img {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            display: block;
+            margin: auto;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+        .popup h2 {
+            margin-top: 0;
+        }
+        .popup button {
+            margin-top: 10px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Explore India's Arts, Cultures, Traditions & Tourism</h1>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search for a state..." onkeyup="searchStates()">
+        </div>
+        <div class="grid" id="stateGrid"></div>
+    </div>
+    
+    <div class="popup" id="popup">
+        <h2 id="popupTitle"></h2>
+        <img id="popupImage" src="" alt="State Image" style="width:100%; border-radius: 5px;">
+        <p id="popupContent"></p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        const states = [
+            "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+            "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
+            "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
+            "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab",
+            "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+            "Uttar Pradesh", "Uttarakhand", "West Bengal"
+        ];
+
+        const stateGrid = document.getElementById("stateGrid");
+        const popup = document.getElementById("popup");
+        const popupTitle = document.getElementById("popupTitle");
+        const popupContent = document.getElementById("popupContent");
+        const popupImage = document.getElementById("popupImage");
+
+        states.forEach(state => {
+            const div = document.createElement("div");
+            div.classList.add("state");
+            div.style.backgroundColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+            
+            const img = document.createElement("img");
+            img.src = `A:/ACTT/${state.replace(/ /g, '%20')}.jpg`;
+            img.alt = state;
+            img.addEventListener("click", () => showPopup(state));
+            
+            const text = document.createElement("div");
+            text.textContent = state;
+            
+            div.appendChild(img);
+            div.appendChild(text);
+            stateGrid.appendChild(div);
+        });
+
+        function showPopup(state) {
+            popupTitle.textContent = state;
+            popupContent.textContent = `Art: Art of ${state}\nCulture: Culture of ${state}\nTradition: Tradition of ${state}\nTourism: Famous places in ${state}`;
+            popupImage.src = `A:/ACTT/${state.replace(/ /g, '%20')}.jpg`;
+            popup.style.display = "block";
+        }
+
+        function closePopup() {
+            popup.style.display = "none";
+        }
+
+        function searchStates() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let stateElements = document.querySelectorAll(".state");
+            
+            stateElements.forEach(el => {
+                let stateName = el.innerText.toLowerCase();
+                el.style.display = stateName.includes(input) ? "block" : "none";
+            });
+        }
+    </script>
+</body>
+</html>
